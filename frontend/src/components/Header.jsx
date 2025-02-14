@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import Button from "./Button";
+import { Button } from "./Button";
 import {
   LuLayoutDashboard,
   LuPackage,
@@ -37,9 +37,14 @@ function DesktopSidebar({ children }) {
   return (
     <>
       <aside className="hidden w-64 flex-col bg-white shadow-md md:flex">
-        <div className="p-4">
+        <div className="mx-auto px-4 pt-4">
           <Link to="/">
-            <h1 className="text-2xl font-bold">SKL Inventario</h1>
+            <div className="size-28 transition-all duration-200 hover:scale-125">
+              <img
+                src="/src/assets/logo-no-bg.png"
+                alt="logo de SKL indumentaria deportiva"
+              />
+            </div>
           </Link>
         </div>
         <nav className="flex-1 space-y-2 px-2 py-4">
@@ -56,14 +61,28 @@ function DesktopSidebar({ children }) {
 function MobileHeader({ children }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  useEffect(() => {
+    console.log(isMobileMenuOpen);
+  }, [isMobileMenuOpen]);
+
   return (
     <div className="fixed inset-0 z-50 flex flex-col md:hidden">
       <header className="z-10 bg-white shadow-md">
-        <div className="flex items-center justify-between p-4">
-          <Link to="/" className="text-xl font-bold">
-            <h1>SKL Inventario</h1>
-          </Link>
-          <Button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+        <div className="flex items-center justify-between px-4 py-2">
+          <div className="px-4">
+            <Link to="/">
+              <div className="size-12">
+                <img
+                  src="/src/assets/logo-no-bg.png"
+                  alt="logo de SKL indumentaria deportiva"
+                />
+              </div>
+            </Link>
+          </div>
+          <Button
+            className="h-10 w-10 hover:bg-[#f5f5f5] hover:text-[#171717]"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
             <LuMenu className="h-6 w-6" />
           </Button>
         </div>
@@ -77,8 +96,11 @@ function MobileHeader({ children }) {
       >
         <div className="flex h-full flex-col">
           <div className="flex items-center justify-between p-4">
-            <h2 className="text-xl font-bold">SKL Inventario</h2>
-            <Button onClick={() => setIsMobileMenuOpen(false)}>
+            <h2 className="text-xl font-bold">SKL Indumentaria</h2>
+            <Button
+              className="h-10 w-10 hover:bg-[#f5f5f5] hover:text-[#171717]"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
               <LuX className="h-6 w-6" />
             </Button>
           </div>
