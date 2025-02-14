@@ -29,7 +29,9 @@ function Inventory() {
 
   const navigate = useNavigate();
 
-  const handleAddProduct = () => {
+  const handleAddProduct = (e) => {
+    e.preventDefault();
+
     const productToAdd = {
       id: products.length + 1,
       name: newProduct.name,
@@ -48,7 +50,7 @@ function Inventory() {
   return (
     <div className="space-y-6">
       <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
-        <h2 className="text-3xl font-bold">Productos</h2>
+        <h1 className="text-3xl font-bold">Productos</h1>
         <Button
           className="h-10 bg-[#171717] px-4 py-2 text-[#fafafa] hover:bg-[#171717]/90"
           onClick={() => setIsAddingProduct(true)}
@@ -65,6 +67,7 @@ function Inventory() {
                 id="name"
                 name="name"
                 placeholder="Nombre"
+                autoComplete="off"
                 value={newProduct.name}
                 onChange={(e) =>
                   setNewProduct((prev) => ({ ...prev, name: e.target.value }))
@@ -74,6 +77,7 @@ function Inventory() {
                 id="category"
                 name="category"
                 placeholder="Categoría"
+                autoComplete="off"
                 value={newProduct.category}
                 onChange={(e) =>
                   setNewProduct((prev) => ({
@@ -89,6 +93,7 @@ function Inventory() {
                 name="price"
                 type="number"
                 placeholder="Precio"
+                autoComplete="off"
                 value={newProduct.price}
                 onChange={(e) =>
                   setNewProduct((prev) => ({ ...prev, price: e.target.value }))
@@ -101,13 +106,13 @@ function Inventory() {
                 className="h-10 border border-[#cfcfcf] px-4 py-2 hover:bg-[#c3c3c3] hover:text-[#171717]"
                 onClick={() => setIsAddingProduct(false)}
               >
-                Cancel
+                Cancelar
               </Button>
               <Button
                 type="submit"
                 className="h-10 bg-[#171717] px-4 py-2 text-[#fafafa] hover:bg-[#171717]/90"
               >
-                Add Product
+                Agregar producto
               </Button>
             </div>
           </form>
@@ -116,7 +121,7 @@ function Inventory() {
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>
-            <TableRow className="bg-indigo-300">
+            <TableRow>
               <TableHead>Nombre</TableHead>
               <TableHead>Categoría</TableHead>
               <TableHead>Precio</TableHead>
@@ -125,28 +130,25 @@ function Inventory() {
           </TableHeader>
           <TableBody>
             {products.map((product) => (
-              <TableRow
-                key={product.id}
-                className="even:bg-[#eaeaea] hover:bg-[#e3e3e3]"
-              >
+              <TableRow className="hover:bg-[#e3e3e3]" key={product.id}>
                 <TableCell>{product.name}</TableCell>
                 <TableCell>{product.category}</TableCell>
                 <TableCell>${product.price.toFixed(2)}</TableCell>
-                <TableCell className="flex">
+                <TableCell className="flex justify-evenly">
                   <Button
-                    className="mr-auto h-10 min-w-1/2 border border-[#cfcfcf] px-4 py-2 hover:bg-[#c3c3c3] hover:text-[#171717]"
+                    className="h-10 min-w-1/2 border border-[#cfcfcf] px-4 py-2 hover:bg-[#c3c3c3] hover:text-[#171717]"
                     onClick={() => navigate(`${product.id}`)}
                   >
                     Ver
                     <LuArrowRight className="min-w-8 md:hidden lg:block" />
                   </Button>
                   <Button
-                    className="group mx-auto h-10 min-w-1/2 text-center"
+                    className="group h-10 min-w-1/2 text-center"
                     onClick={() => handleDeleteProduct(product.id)}
                   >
                     <LuTrash2
                       color="#d65850"
-                      className="h-6 w-6 transition-all duration-200 group-hover:size-8"
+                      className="h-6 w-6 transition-all duration-200 group-hover:scale-150"
                     />
                   </Button>
                 </TableCell>

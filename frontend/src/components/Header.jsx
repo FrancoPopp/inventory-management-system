@@ -10,7 +10,7 @@ import {
 } from "react-icons/lu";
 
 const menuItems = [
-  { href: "/", icon: LuLayoutDashboard, label: "Dashboard" },
+  { href: "/dashboard", icon: LuLayoutDashboard, label: "Dashboard" },
   { href: "/inventory", icon: LuPackage, label: "Inventario" },
   { href: "/sales", icon: LuDollarSign, label: "Ventas" },
 ];
@@ -23,7 +23,7 @@ function NavItems() {
         <Link
           key={item.href}
           to={item.href}
-          className={`flex items-center rounded-md px-4 py-2 text-gray-700 transition-colors hover:bg-indigo-500 ${pathname === item.href ? "bg-indigo-300" : ""} `}
+          className={`flex items-center rounded-md px-4 py-2 text-gray-700 transition-colors hover:bg-indigo-500 ${pathname.startsWith(item.href) ? "bg-indigo-300" : ""} `}
         >
           <item.icon className="mr-3 h-5 w-5" />
           {item.label}
@@ -60,10 +60,6 @@ function DesktopSidebar({ children }) {
 
 function MobileHeader({ children }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    console.log(isMobileMenuOpen);
-  }, [isMobileMenuOpen]);
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col md:hidden">

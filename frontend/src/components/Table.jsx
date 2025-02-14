@@ -1,6 +1,6 @@
 function Table({ className, children }) {
   return (
-    <div className="relative w-full overflow-auto">
+    <div className="relative w-full overflow-auto rounded-md">
       <table
         className={`w-full table-fixed caption-bottom text-sm ${className}`}
       >
@@ -11,7 +11,7 @@ function Table({ className, children }) {
 }
 
 function TableHeader({ className, children }) {
-  return <thead className={className}>{children}</thead>;
+  return <thead className={`bg-indigo-300 ${className}`}>{children}</thead>;
 }
 
 function TableBody({ className, children }) {
@@ -26,9 +26,7 @@ function TableFooter({ className, children }) {
 
 function TableRow({ className, children }) {
   return (
-    <tr
-      className={`data-[state=selected]:[#f5f5f5] transition-colors ${className}`}
-    >
+    <tr className={`transition-colors even:bg-[#eaeaea] ${className}`}>
       {children}
     </tr>
   );
