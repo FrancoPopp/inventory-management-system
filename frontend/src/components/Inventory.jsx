@@ -140,7 +140,7 @@ function Inventory() {
                     onClick={() => navigate(`${product.id}`)}
                   >
                     Ver
-                    <LuArrowRight className="min-w-8 md:hidden lg:block" />
+                    <LuArrowRight className="hidden min-w-8 lg:block" />
                   </Button>
                   <Button
                     className="group h-10 min-w-1/2 text-center"

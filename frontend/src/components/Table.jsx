@@ -1,9 +1,9 @@
 function Table({ className, children }) {
   return (
-    <div className="relative w-full overflow-auto rounded-md">
-      <table
-        className={`w-full table-fixed caption-bottom text-sm ${className}`}
-      >
+    <div
+      className={`relative w-full overflow-auto rounded-md border border-[#c5c5c5] bg-gray-100 ${className}`}
+    >
+      <table className="w-full table-fixed caption-bottom text-sm">
         {children}
       </table>
     </div>
@@ -11,7 +11,11 @@ function Table({ className, children }) {
 }
 
 function TableHeader({ className, children }) {
-  return <thead className={`bg-indigo-300 ${className}`}>{children}</thead>;
+  return (
+    <thead className={`border-b border-[#c5c5c5] bg-indigo-300 ${className}`}>
+      {children}
+    </thead>
+  );
 }
 
 function TableBody({ className, children }) {
