@@ -122,7 +122,7 @@ function Sales() {
       </div>
       {isAddingSale ? (
         <div className="grid gap-6 lg:grid-cols-3">
-          <Card className="col-span-1 h-fit">
+          <Card className="h-fit lg:col-span-1">
             <CardHeader>
               <CardTitle>Agregar productos</CardTitle>
             </CardHeader>
@@ -190,7 +190,7 @@ function Sales() {
             </CardContent>
           </Card>
 
-          <Card className="col-span-2">
+          <Card className="lg:col-span-2">
             <CardHeader>
               <CardTitle>
                 Total: $

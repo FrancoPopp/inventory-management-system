@@ -136,7 +136,7 @@ function Inventory() {
                 <TableCell>${product.price.toFixed(2)}</TableCell>
                 <TableCell className="flex justify-evenly">
                   <Button
-                    className="h-10 min-w-1/2 border border-[#cfcfcf] px-4 py-2 hover:bg-[#c3c3c3] hover:text-[#171717]"
+                    className="h-10 border border-[#cfcfcf] px-2 py-2 hover:bg-[#c3c3c3] hover:text-[#171717] md:px-4"
                     onClick={() => navigate(`${product.id}`)}
                   >
                     Ver

@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 import { Button } from "./Button";
 import {
   LuLayoutDashboard,
@@ -7,6 +8,7 @@ import {
   LuDollarSign,
   LuMenu,
   LuX,
+  LuLogOut,
 } from "react-icons/lu";
 
 const menuItems = [
@@ -33,6 +35,21 @@ function NavItems() {
   );
 }
 
+function Logout() {
+  const { logout } = useAuth();
+  return (
+    <div className="flex justify-center px-2 py-4">
+      <Button
+        className="flex items-center justify-start rounded-md px-4 py-2 text-gray-700 transition-colors hover:text-[#ff3020]"
+        onClick={logout}
+      >
+        <LuLogOut className="mr-3 h-5 w-5" />
+        Cerrar sesión
+      </Button>
+    </div>
+  );
+}
+
 function DesktopSidebar({ children }) {
   return (
     <>
@@ -50,6 +67,7 @@ function DesktopSidebar({ children }) {
         <nav className="flex-1 space-y-2 px-2 py-4">
           <NavItems />
         </nav>
+        <Logout />
       </aside>
       <main className="hidden flex-1 overflow-y-auto p-6 md:block">
         {children}
@@ -105,6 +123,7 @@ function MobileHeader({ children }) {
               <NavItems />
             </nav>
           </div>
+          <Logout />
         </div>
       </div>
 

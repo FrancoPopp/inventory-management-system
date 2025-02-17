@@ -1,24 +1,40 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-  const [success, setSucess] = useState(false);
+
+  const { login, isLoginLoading, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    console.log("errorMsg", errorMsg);
+  }, [errorMsg]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setSucess(true);
+    try {
+      await login({ username, password });
+      const from = location.state?.from?.pathname || "/";
+      navigate(from, { replace: true });
+    } catch (error) {
+      setErrorMsg(error.message);
+    }
+
     setUsername("");
     setPassword("");
 
     e.target.reset();
   };
 
-  return success ? (
-    <h1>Signed in succesfully</h1>
-  ) : (
+  if (isAuthenticated) return <Navigate to="/" replace />;
+
+  return (
     <section className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
       <div className="w-full max-w-md rounded-xl bg-white p-8 shadow-lg">
         <p
@@ -43,7 +59,7 @@ function Login() {
               id="username"
               autoComplete="off"
               onChange={(e) => setUsername(e.target.value)}
-              onFocus={(e) => setErrorMsg("")}
+              onFocus={() => setErrorMsg("")}
               required
               value={username}
               className="w-full rounded-lg border border-gray-300 px-4 py-2 transition-all outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500"
@@ -61,7 +77,7 @@ function Login() {
               type="password"
               id="password"
               onChange={(e) => setPassword(e.target.value)}
-              onFocus={(e) => setErrorMsg("")}
+              onFocus={() => setErrorMsg("")}
               required
               autoComplete="off"
               value={password}
@@ -71,10 +87,10 @@ function Login() {
 
           <div>
             <button
-              disabled={username === "" || password === ""}
+              disabled={username === "" || password === "" || isLoginLoading}
               className="w-full rounded-lg bg-indigo-600 py-2.5 font-medium text-white transition-colors hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-indigo-600"
             >
-              Iniciar sesión
+              {isLoginLoading ? "Iniciando sesión..." : "Iniciar sesión"}
             </button>
           </div>
         </form>
