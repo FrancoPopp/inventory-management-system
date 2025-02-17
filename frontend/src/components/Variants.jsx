@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Card, CardHeader, CardTitle, CardContent } from "./Card";
 import {
@@ -10,62 +10,56 @@ import {
   TableCell,
 } from "./Table";
 import { Input } from "./Input";
+import { Select, SelectItem } from "./Select";
 import { Button } from "./Button";
 import { LuArrowLeft, LuPlus, LuTrash2 } from "react-icons/lu";
-
-const mockVariants = [
-  { id: 1, color: "Red", size: "S", stock: 10 },
-  { id: 2, color: "Black", size: "M", stock: 15 },
-  { id: 3, color: "Blue", size: "L", stock: 8 },
-  { id: 4, color: "White", size: "XL", stock: 12 },
-];
+import { useProducts } from "../hooks/useProducts";
+import { useVariants } from "../hooks/useVariants";
+import { useColors } from "../hooks/useColors";
+import { useCategories } from "../hooks/useCategories";
 
 function Variants() {
-  const { id } = useParams();
-  const [product, setProduct] = useState();
-  const [variants, setVariants] = useState(mockVariants);
-  const [newVariant, setNewVariant] = useState({
-    size: "",
-    color: "",
-    stock: "",
-  });
-  const [isAddingVariant, setIsAddingVariant] = useState(false);
-
   const navigate = useNavigate();
+  const { id } = useParams();
+  const { getProduct } = useProducts();
+  const {
+    variants,
+    isLoading: isVariantsLoading,
+    isError: isVariantsError,
+    addVariant,
+    deleteVariant,
+    addStock,
+  } = useVariants(id);
+  const { colors, getColorName } = useColors();
+  const { getCategoryName } = useCategories();
+  const [product, setProduct] = useState(null);
+  const [isAddingVariant, setIsAddingVariant] = useState(false);
+  const [newVariant, setNewVariant] = useState({
+    size: 1,
+    colorId: "",
+    stockLevel: 1,
+  });
 
   useEffect(() => {
-    setProduct({
-      id,
-      name: "Gucci Jeans",
-      category: "Jeans",
-      price: 89.99,
+    getProduct(id).then((product) => {
+      setProduct(product);
     });
   }, [id]);
 
   const handleAddVariant = (e) => {
     e.preventDefault();
 
-    const variantToAdd = {
-      size: newVariant.size,
-      color: newVariant.color,
-      stock: Number.parseFloat(newVariant.stock),
-    };
-
-    setVariants((prev) => [...prev, variantToAdd]);
-    setNewVariant({ size: "", color: "", stock: "" });
+    addVariant({ ...newVariant, productId: product.id });
+    setNewVariant({ size: 1, colorId: "", stockLevel: 1 });
     setIsAddingVariant(false);
   };
 
   const handleAddStock = (id) => {
-    setVariants((prev) =>
-      prev.map((variant) =>
-        variant.id === id ? { ...variant, stock: variant.stock + 1 } : variant,
-      ),
-    );
+    addStock({ id, productId: product.id });
   };
 
   const handleDeleteVariant = (id) => {
-    setVariants((prev) => prev.filter((variant) => variant.id !== id));
+    deleteVariant({ id, productId: product.id });
   };
 
   return (
@@ -99,26 +93,37 @@ function Variants() {
               <Input
                 id="size"
                 name="size"
+                type="number"
                 placeholder="Talle"
                 autoComplete="off"
                 value={newVariant.size}
                 onChange={(e) =>
-                  setNewVariant((prev) => ({ ...prev, size: e.target.value }))
-                }
-              />
-              <Input
-                id="color"
-                name="color"
-                placeholder="Color"
-                autoComplete="off"
-                value={newVariant.color}
-                onChange={(e) =>
                   setNewVariant((prev) => ({
                     ...prev,
-                    color: e.target.value,
+                    size: Number.parseInt(e.target.value),
                   }))
                 }
               />
+              <Select
+                id="color"
+                name="color"
+                value={newVariant.colorId}
+                onChange={(e) =>
+                  setNewVariant((prev) => ({
+                    ...prev,
+                    colorId: e.target.value,
+                  }))
+                }
+              >
+                <SelectItem value="" disabled>
+                  Selecciona un color
+                </SelectItem>
+                {colors.map((color) => (
+                  <SelectItem key={color.id} value={color.id}>
+                    {color.name}
+                  </SelectItem>
+                ))}
+              </Select>
             </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <Input
@@ -127,9 +132,12 @@ function Variants() {
                 type="number"
                 placeholder="Stock"
                 autoComplete="off"
-                value={newVariant.stock}
+                value={newVariant.stockLevel}
                 onChange={(e) =>
-                  setNewVariant((prev) => ({ ...prev, stock: e.target.value }))
+                  setNewVariant((prev) => ({
+                    ...prev,
+                    stockLevel: Number.parseInt(e.target.value),
+                  }))
                 }
               />
             </div>
@@ -158,7 +166,8 @@ function Variants() {
           </CardHeader>
           <CardContent>
             <p>
-              <strong>Categoría:</strong> {product?.category ?? "Cargando..."}
+              <strong>Categoría:</strong>{" "}
+              {getCategoryName(product?.categoryId) ?? "Cargando..."}
             </p>
             <p>
               <strong>Precio:</strong> $
@@ -185,8 +194,8 @@ function Variants() {
                   {variants?.map((variant) => (
                     <TableRow key={variant.id}>
                       <TableCell>{variant.size}</TableCell>
-                      <TableCell>{variant.color}</TableCell>
-                      <TableCell>{variant.stock}</TableCell>
+                      <TableCell>{getColorName(variant.colorId)}</TableCell>
+                      <TableCell>{variant.stockLevel}</TableCell>
                       <TableCell className="flex justify-evenly gap-2">
                         <Button
                           className="group h-10 min-w-1/2 text-center"

@@ -11,41 +11,42 @@ import { Input } from "./Input";
 import { LuArrowRight, LuPlus, LuTrash2 } from "react-icons/lu";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-const mockProducts = [
-  { id: 1, name: "T-Shirt", category: "Top", price: 19.99 },
-  { id: 2, name: "Jeans", category: "Bottom", price: 49.99 },
-  { id: 3, name: "Sneakers", category: "Shoes", price: 79.99 },
-];
+import { useProducts } from "../hooks/useProducts";
+import { useCategories } from "../hooks/useCategories";
+import { Label } from "./Label";
+import { Select, SelectItem } from "./Select";
 
 function Inventory() {
-  const [products, setProducts] = useState(mockProducts);
+  const navigate = useNavigate();
+  const {
+    products,
+    isLoading: isProductsLoading,
+    isError: isProductsError,
+    addProduct,
+    deleteProduct,
+  } = useProducts();
+  const { categories, getCategoryName } = useCategories();
+  const [isAddingProduct, setIsAddingProduct] = useState(false);
   const [newProduct, setNewProduct] = useState({
     name: "",
-    category: "",
-    price: "",
+    categoryId: "",
+    price: 0,
   });
-  const [isAddingProduct, setIsAddingProduct] = useState(false);
-
-  const navigate = useNavigate();
 
   const handleAddProduct = (e) => {
     e.preventDefault();
 
-    const productToAdd = {
-      id: products.length + 1,
-      name: newProduct.name,
-      category: newProduct.category,
-      price: Number.parseFloat(newProduct.price),
-    };
-    setProducts((prev) => [...prev, productToAdd]);
-    setNewProduct({ name: "", category: "", price: "" });
+    addProduct(newProduct);
+    setNewProduct({ name: "", categoryId: "", price: 0 });
     setIsAddingProduct(false);
   };
 
   const handleDeleteProduct = (id) => {
-    setProducts((prev) => prev.filter((product) => product.id !== id));
+    deleteProduct(id);
   };
+
+  if (isProductsLoading) return <div>Cargando...</div>;
+  if (isProductsError) return <div>Error</div>;
 
   return (
     <div className="space-y-6">
@@ -69,23 +70,36 @@ function Inventory() {
                 placeholder="Nombre"
                 autoComplete="off"
                 value={newProduct.name}
+                required
                 onChange={(e) =>
                   setNewProduct((prev) => ({ ...prev, name: e.target.value }))
                 }
               />
-              <Input
+              <Select
                 id="category"
                 name="category"
-                placeholder="Categoría"
-                autoComplete="off"
-                value={newProduct.category}
+                value={newProduct.categoryId}
+                required
                 onChange={(e) =>
                   setNewProduct((prev) => ({
                     ...prev,
-                    category: e.target.value,
+                    categoryId: e.target.value,
                   }))
                 }
-              />
+              >
+                <SelectItem value="" disabled>
+                  Selecciona una categoría
+                </SelectItem>
+                {categories.map((category) => (
+                  <SelectItem
+                    key={category.id}
+                    value={category.id}
+                    disabled={category.id === newProduct.categoryId}
+                  >
+                    {category.name}
+                  </SelectItem>
+                ))}
+              </Select>
             </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <Input
@@ -95,8 +109,12 @@ function Inventory() {
                 placeholder="Precio"
                 autoComplete="off"
                 value={newProduct.price}
+                required
                 onChange={(e) =>
-                  setNewProduct((prev) => ({ ...prev, price: e.target.value }))
+                  setNewProduct((prev) => ({
+                    ...prev,
+                    price: Number.parseFloat(e.target.value),
+                  }))
                 }
               />
             </div>
@@ -130,21 +148,23 @@ function Inventory() {
           </TableHeader>
           <TableBody>
             {products.map((product) => (
-              <TableRow className="hover:bg-[#e3e3e3]" key={product.id}>
+              <TableRow
+                onClick={() => {
+                  navigate(`${product.id}`);
+                }}
+                className="cursor-pointer hover:bg-[#e3e3e3]"
+                key={product.id}
+              >
                 <TableCell>{product.name}</TableCell>
-                <TableCell>{product.category}</TableCell>
+                <TableCell>{getCategoryName(product.categoryId)}</TableCell>
                 <TableCell>${product.price.toFixed(2)}</TableCell>
                 <TableCell className="flex justify-evenly">
                   <Button
-                    className="h-10 border border-[#cfcfcf] px-2 py-2 hover:bg-[#c3c3c3] hover:text-[#171717] md:px-4"
-                    onClick={() => navigate(`${product.id}`)}
-                  >
-                    Ver
-                    <LuArrowRight className="hidden min-w-8 lg:block" />
-                  </Button>
-                  <Button
                     className="group h-10 min-w-1/2 text-center"
-                    onClick={() => handleDeleteProduct(product.id)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteProduct(product.id);
+                    }}
                   >
                     <LuTrash2
                       color="#d65850"

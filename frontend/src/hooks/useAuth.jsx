@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import AuthContext from "../context/AuthContext";
 
-const useAuth = () => {
+export const useAuth = () => {
   const { token, setToken } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
   const isAuthenticated = Boolean(token);
@@ -52,5 +52,3 @@ const useAuth = () => {
     isLoginLoading: isLoading,
   };
 };
-
-export default useAuth;

@@ -28,9 +28,12 @@ function TableFooter({ className, children }) {
   );
 }
 
-function TableRow({ className, children }) {
+function TableRow({ className, children, ...props }) {
   return (
-    <tr className={`transition-colors even:bg-[#eaeaea] ${className}`}>
+    <tr
+      className={`transition-colors even:bg-[#eaeaea] ${className}`}
+      {...props}
+    >
       {children}
     </tr>
   );
