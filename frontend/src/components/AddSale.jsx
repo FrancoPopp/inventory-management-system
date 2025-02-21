@@ -183,75 +183,83 @@ function AddSale() {
       <Card className="lg:col-span-2">
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
-            Total: ${newSale.totalAmount}
-            <Select
-              id="paymentMethod"
-              value={newSale.paymentMethod}
-              onChange={(e) =>
-                setNewSale({
-                  ...newSale,
-                  paymentMethod: Number.parseInt(e.target.value),
-                })
-              }
-            >
-              <SelectItem value="" disabled>
-                Selecciona un método de pago
-              </SelectItem>
-              <SelectItem value="0">Crédito</SelectItem>
-              <SelectItem value="1">Débito</SelectItem>
-              <SelectItem value="2">Efectivo</SelectItem>
-            </Select>
-            <Button
-              className="h-10 bg-[#419933] px-4 py-2 text-[#fafafa] hover:bg-[#417933]"
-              onClick={handleSaleSubmit}
-            >
-              Finalizar venta
-            </Button>
+            <h3 className="text-2xl font-semibold text-nowrap">
+              Total: ${newSale.totalAmount}
+            </h3>
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <Table className="h-[350px]">
-            <TableHeader>
-              <TableRow>
-                <TableHead>Producto</TableHead>
-                <TableHead>Talle</TableHead>
-                <TableHead>Color</TableHead>
-                <TableHead>Cantidad</TableHead>
-                <TableHead>Precio</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {newSale.saleDetails.map((detail) => (
-                <TableRow
-                  className="hover:bg-[#e3e3e3]"
-                  key={
-                    detail.productVariantId +
-                    detail.quantity +
-                    detail.priceAtSale
+          <div className="flex flex-col gap-4">
+            <Table className="h-[350px]">
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Producto</TableHead>
+                  <TableHead>Talle</TableHead>
+                  <TableHead>Color</TableHead>
+                  <TableHead>Cantidad</TableHead>
+                  <TableHead>Precio</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {newSale.saleDetails.map((detail) => (
+                  <TableRow
+                    className="hover:bg-[#e3e3e3]"
+                    key={
+                      detail.productVariantId +
+                      detail.quantity +
+                      detail.priceAtSale
+                    }
+                  >
+                    <TableCell>
+                      {products.find(
+                        (product) =>
+                          product.id ===
+                          variantDetails[detail.productVariantId]?.productId,
+                      )?.name || "Loading..."}
+                    </TableCell>
+                    <TableCell>
+                      {variantDetails[detail.productVariantId]?.size ||
+                        "Loading..."}
+                    </TableCell>
+                    <TableCell>
+                      {getColorName(
+                        variantDetails[detail.productVariantId]?.colorId,
+                      ) || "Loading..."}
+                    </TableCell>
+                    <TableCell>{detail.quantity}</TableCell>
+                    <TableCell>${detail.priceAtSale.toFixed(2)}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            <div className="flex justify-between">
+              <div className="w-1/2">
+                <Select
+                  id="paymentMethod"
+                  value={newSale.paymentMethod}
+                  onChange={(e) =>
+                    setNewSale({
+                      ...newSale,
+                      paymentMethod: Number.parseInt(e.target.value),
+                    })
                   }
                 >
-                  <TableCell>
-                    {products.find(
-                      (product) =>
-                        product.id ===
-                        variantDetails[detail.productVariantId]?.productId,
-                    )?.name || "Loading..."}
-                  </TableCell>
-                  <TableCell>
-                    {variantDetails[detail.productVariantId]?.size ||
-                      "Loading..."}
-                  </TableCell>
-                  <TableCell>
-                    {getColorName(
-                      variantDetails[detail.productVariantId]?.colorId,
-                    ) || "Loading..."}
-                  </TableCell>
-                  <TableCell>{detail.quantity}</TableCell>
-                  <TableCell>${detail.priceAtSale.toFixed(2)}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+                  <SelectItem value="" disabled>
+                    Selecciona un método de pago
+                  </SelectItem>
+                  <SelectItem value="0">Crédito</SelectItem>
+                  <SelectItem value="1">Débito</SelectItem>
+                  <SelectItem value="2">Efectivo</SelectItem>
+                </Select>
+              </div>
+              <Button
+                className="h-10 bg-[#419933] px-4 py-2 text-[#fafafa] hover:bg-[#417933]"
+                onClick={handleSaleSubmit}
+              >
+                Finalizar venta
+              </Button>
+            </div>
+          </div>
         </CardContent>
       </Card>
     </div>
