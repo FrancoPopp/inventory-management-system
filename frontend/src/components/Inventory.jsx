@@ -8,12 +8,11 @@ import {
 } from "./Table";
 import { Button } from "./Button";
 import { Input } from "./Input";
-import { LuArrowRight, LuPlus, LuTrash2 } from "react-icons/lu";
+import { LuPlus, LuTrash2 } from "react-icons/lu";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useProducts } from "../hooks/useProducts";
 import { useCategories } from "../hooks/useCategories";
-import { Label } from "./Label";
 import { Select, SelectItem } from "./Select";
 
 function Inventory() {
@@ -64,59 +63,73 @@ function Inventory() {
           <h2 className="mb-4 text-lg font-semibold">Agregar nuevo producto</h2>
           <form onSubmit={handleAddProduct} className="grid gap-4">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <Input
-                id="name"
-                name="name"
-                placeholder="Nombre"
-                autoComplete="off"
-                value={newProduct.name}
-                required
-                onChange={(e) =>
-                  setNewProduct((prev) => ({ ...prev, name: e.target.value }))
-                }
-              />
-              <Select
-                id="category"
-                name="category"
-                value={newProduct.categoryId}
-                required
-                onChange={(e) =>
-                  setNewProduct((prev) => ({
-                    ...prev,
-                    categoryId: e.target.value,
-                  }))
-                }
-              >
-                <SelectItem value="" disabled>
-                  Selecciona una categoría
-                </SelectItem>
-                {categories.map((category) => (
-                  <SelectItem
-                    key={category.id}
-                    value={category.id}
-                    disabled={category.id === newProduct.categoryId}
+              <div className="w-9/10 md:w-full">
+                <Input
+                  id="name"
+                  name="name"
+                  placeholder="Nombre"
+                  autoComplete="off"
+                  value={newProduct.name}
+                  required
+                  onChange={(e) =>
+                    setNewProduct((prev) => ({ ...prev, name: e.target.value }))
+                  }
+                />
+              </div>
+              <div className="flex gap-4">
+                <div className="w-9/10">
+                  <Select
+                    id="category"
+                    name="category"
+                    value={newProduct.categoryId}
+                    required
+                    onChange={(e) =>
+                      setNewProduct((prev) => ({
+                        ...prev,
+                        categoryId: e.target.value,
+                      }))
+                    }
                   >
-                    {category.name}
-                  </SelectItem>
-                ))}
-              </Select>
+                    <SelectItem value="" disabled>
+                      Selecciona una categoría
+                    </SelectItem>
+                    {categories.map((category) => (
+                      <SelectItem
+                        key={category.id}
+                        value={category.id}
+                        disabled={category.id === newProduct.categoryId}
+                      >
+                        {category.name}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                </div>
+                <Button className="group">
+                  <LuPlus
+                    className="size-8 transition-all duration-300 group-hover:scale-120"
+                    color={"#17a025"}
+                  />
+                </Button>
+              </div>
             </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <Input
-                id="price"
-                name="price"
-                type="number"
-                placeholder="Precio"
-                autoComplete="off"
-                value={newProduct.price}
-                required
-                onChange={(e) =>
-                  setNewProduct((prev) => ({
-                    ...prev,
-                    price: Number.parseFloat(e.target.value),
-                  }))
-                }
-              />
+              <div className="w-9/10 md:w-full">
+                <Input
+                  id="price"
+                  name="price"
+                  type="number"
+                  placeholder="Precio"
+                  autoComplete="off"
+                  value={newProduct.price}
+                  required
+                  onChange={(e) =>
+                    setNewProduct((prev) => ({
+                      ...prev,
+                      price: Number.parseFloat(e.target.value),
+                    }))
+                  }
+                />
+              </div>
             </div>
             <div className="flex justify-end gap-2">
               <Button

@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, QueryClient } from "@tanstack/react-query";
 import {
   fetchCategories,
   addCategory,
@@ -6,6 +6,7 @@ import {
 } from "../services/categories";
 
 export const useCategories = () => {
+  const queryClient = new QueryClient();
   const {
     data: categories = [],
     isLoading,

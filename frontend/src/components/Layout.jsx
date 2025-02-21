@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { DesktopSidebar, MobileHeader } from "./Header";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 function Layout() {
   return (
@@ -10,6 +11,7 @@ function Layout() {
       <MobileHeader>
         <Outlet />
       </MobileHeader>
+      <ReactQueryDevtools initialIsOpen={false} />
     </div>
   );
 }

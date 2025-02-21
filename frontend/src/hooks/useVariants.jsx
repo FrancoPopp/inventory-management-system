@@ -1,5 +1,6 @@
 import {
   fetchVariants,
+  fetchVariant,
   addVariant,
   deleteVariant,
   addStock,
@@ -16,6 +17,13 @@ export const useVariants = (productId) => {
     queryKey: ["variants", productId],
     queryFn: () => fetchVariants(productId),
   });
+
+  const getVariant = async (id) => {
+    return queryClient.fetchQuery({
+      queryKey: ["variant", id],
+      queryFn: () => fetchVariant(id),
+    });
+  };
 
   const addVariantMutation = useMutation({
     mutationFn: addVariant,
@@ -46,5 +54,6 @@ export const useVariants = (productId) => {
     addVariant: addVariantMutation.mutate,
     deleteVariant: deleteVariantMutation.mutate,
     addStock: addStockMutation.mutate,
+    getVariant,
   };
 };

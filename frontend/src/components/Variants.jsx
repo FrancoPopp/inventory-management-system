@@ -55,11 +55,11 @@ function Variants() {
   };
 
   const handleAddStock = (id) => {
-    addStock({ id, productId: product.id });
+    addStock(id);
   };
 
   const handleDeleteVariant = (id) => {
-    deleteVariant({ id, productId: product.id });
+    deleteVariant(id);
   };
 
   return (
@@ -159,7 +159,7 @@ function Variants() {
           </form>
         </div>
       )}
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-6 lg:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle>Detalles del producto</CardTitle>

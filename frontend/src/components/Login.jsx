@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
@@ -11,17 +11,11 @@ function Login() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => {
-    console.log("errorMsg", errorMsg);
-  }, [errorMsg]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       await login({ username, password });
-      const from = location.state?.from?.pathname || "/";
-      navigate(from, { replace: true });
     } catch (error) {
       setErrorMsg(error.message);
     }
@@ -32,7 +26,8 @@ function Login() {
     e.target.reset();
   };
 
-  if (isAuthenticated) return <Navigate to="/" replace />;
+  if (isAuthenticated)
+    return <Navigate to={location.state?.from?.pathname || "/"} replace />;
 
   return (
     <section className="flex min-h-screen items-center justify-center bg-gray-100 p-4">

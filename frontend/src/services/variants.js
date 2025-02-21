@@ -1,6 +1,7 @@
 const url = `${import.meta.env.VITE_API_URL}/api/v0`;
 
 export const fetchVariants = async (productId) => {
+  if (!productId) return [];
   return fetch(`${url}/products/${productId}/variants`, {
     headers: {
       "Content-Type": "application/json",
@@ -26,8 +27,8 @@ export const addVariant = async (variant) => {
   });
 };
 
-export const deleteVariant = async ({ id, productId }) => {
-  return fetch(`${url}/products/${productId}/variants/${id}`, {
+export const deleteVariant = async (id) => {
+  return fetch(`${url}/products/variants/${id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -36,8 +37,18 @@ export const deleteVariant = async ({ id, productId }) => {
   });
 };
 
-export const getVariant = async ({ id, variantId }) => {
-  return fetch(`${url}/products/${variantId}/variants/${id}`, {
+export const addStock = async (id) => {
+  return fetch(`${url}/products/variants/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+};
+
+export const fetchVariant = async (id) => {
+  return fetch(`${url}/products/variants/${id}`, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -45,15 +56,5 @@ export const getVariant = async ({ id, variantId }) => {
   }).then((res) => {
     if (!res.ok) throw new Error("Failed to fetch variant");
     return res.json();
-  });
-};
-
-export const addStock = async ({ id, productId }) => {
-  return fetch(`${url}/products/${productId}/variants/${id}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
   });
 };
