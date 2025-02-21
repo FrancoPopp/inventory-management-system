@@ -58,7 +58,7 @@ function DesktopSidebar({ children }) {
           <Link to="/">
             <div className="size-28 transition-all duration-200 hover:scale-125">
               <img
-                src="/src/assets/logo-no-bg.png"
+                src="/logo-no-bg.png"
                 alt="logo de SKL indumentaria deportiva"
               />
             </div>
@@ -87,7 +87,7 @@ function MobileHeader({ children }) {
             <Link to="/">
               <div className="size-12">
                 <img
-                  src="/src/assets/logo-no-bg.png"
+                  src="/logo-no-bg.png"
                   alt="logo de SKL indumentaria deportiva"
                 />
               </div>

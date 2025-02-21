@@ -45,7 +45,7 @@ function AddSale() {
   useEffect(() => {
     setValidQuantity(
       variants?.find((variant) => variant.id === newSaleDetail.productVariantId)
-        ?.stockLevel >= newSaleDetail.quantity ?? false,
+        ?.stockLevel >= newSaleDetail.quantity,
     );
   }, [newSaleDetail, variants]);
 
