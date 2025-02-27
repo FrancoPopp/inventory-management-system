@@ -1,4 +1,4 @@
-package category;
+package com.skl.backend.category;
 
 import java.util.UUID;
 

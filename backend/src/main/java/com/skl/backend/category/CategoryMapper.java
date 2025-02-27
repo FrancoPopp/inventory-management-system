@@ -1,4 +1,4 @@
-package category;
+package com.skl.backend.category;
 
 public interface CategoryMapper {
 

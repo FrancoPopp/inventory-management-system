@@ -1,4 +1,4 @@
-package color;
+package com.skl.backend.color;
 
 import java.util.UUID;
 

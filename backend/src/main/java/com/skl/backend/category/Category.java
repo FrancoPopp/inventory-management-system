@@ -1,12 +1,12 @@
-package color;
+package com.skl.backend.category;
 
 import jakarta.persistence.*;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "colors")
-public class Color {
+@Table(name = "categories")
+public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -16,9 +16,9 @@ public class Color {
     @Column(nullable = false, unique = true)
     private String name;
 
-    public Color() {}
+    public Category(){}
 
-    public Color(UUID id, String name) {
+    public Category(UUID id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -42,8 +42,8 @@ public class Color {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Color color = (Color) o;
-        return Objects.equals(id, color.id) && Objects.equals(name, color.name);
+        Category category = (Category) o;
+        return Objects.equals(id, category.id) && Objects.equals(name, category.name);
     }
 
     @Override
@@ -53,11 +53,11 @@ public class Color {
 
     @Override
     public String toString() {
-        return "Color{" +
+        return "Category{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
     }
-}
 
+}
 

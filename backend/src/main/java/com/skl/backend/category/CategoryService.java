@@ -1,4 +1,4 @@
-package category;
+package com.skl.backend.category;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +9,8 @@ public interface CategoryService {
     List<Category> listCategories();
 
     Category createCategory(Category category);
+
+    Optional<Category> getCategory(UUID d);
 
     void deleteCategory(UUID id);
 

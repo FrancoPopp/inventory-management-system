@@ -1,4 +1,4 @@
-package category;
+package com.skl.backend.category;
 
 import org.springframework.stereotype.Component;
 

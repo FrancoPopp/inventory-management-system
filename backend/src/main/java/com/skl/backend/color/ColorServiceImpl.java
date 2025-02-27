@@ -1,7 +1,8 @@
-package color;
+package com.skl.backend.color;
 
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -29,6 +30,11 @@ public class ColorServiceImpl implements ColorService {
                 null,
                 color.getName()
         ));
+    }
+
+    @Override
+    public Optional<Color> getColor(UUID id) {
+        return colorRepository.findById(id);
     }
 
     @Override
