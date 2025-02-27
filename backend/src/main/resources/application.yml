@@ -1,0 +1,17 @@
+jwt:
+  secret: ${SECRET}
+spring:
+  application:
+    name: backend
+  main:
+    allow-circular-references: true
+  datasource:
+    url: jdbc:postgresql://aws-0-sa-east-1.pooler.supabase.com:5432/postgres?prepareThreshold=0
+    username: postgres.rxfevklemipftnjrctyx
+    password: sFUHCtjrK8kMfaBW
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
