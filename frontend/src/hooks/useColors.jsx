@@ -1,7 +1,8 @@
-import { fetchColors, addColor, deleteColor } from "../services/colors";
+import { useColorsApi } from "../services/useColorsApi";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useColors = () => {
+  const { fetchColors, addColor, deleteColor } = useColorsApi();
   const queryClient = useQueryClient();
   const {
     data: colors = [],

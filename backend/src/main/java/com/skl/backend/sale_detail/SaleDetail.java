@@ -16,11 +16,11 @@ public class SaleDetail {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "product_variant_id", nullable = false)
+    @JoinColumn(name = "product_variant", nullable = false)
     private ProductVariant productVariant;
 
     @ManyToOne
-    @JoinColumn(name = "sale_id", nullable = false)
+    @JoinColumn(name = "sale", nullable = false)
     private Sale sale;
 
     private int quantity;

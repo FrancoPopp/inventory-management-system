@@ -2,6 +2,7 @@ package com.skl.backend.sale_detail;
 
 import com.skl.backend.product_variant.ProductVariant;
 import com.skl.backend.product_variant.ProductVariantRepository;
+import com.skl.backend.product_variant.ProductVariantService;
 import com.skl.backend.sale.Sale;
 import com.skl.backend.sale.SaleRepository;
 import org.springframework.stereotype.Service;
@@ -19,11 +20,13 @@ public class SaleDetailServiceImpl implements SaleDetailService {
     private final SaleDetailRepository saleDetailRepository;
     private final SaleRepository saleRepository;
     private final ProductVariantRepository productVariantRepository;
+    private final ProductVariantService productVariantService;
 
-    public SaleDetailServiceImpl(SaleDetailRepository saleDetailRepository, SaleRepository saleRepository, ProductVariantRepository productVariantRepository) {
+    public SaleDetailServiceImpl(SaleDetailRepository saleDetailRepository, SaleRepository saleRepository, ProductVariantRepository productVariantRepository, ProductVariantService productVariantService) {
         this.saleDetailRepository = saleDetailRepository;
         this.saleRepository = saleRepository;
         this.productVariantRepository = productVariantRepository;
+        this.productVariantService = productVariantService;
     }
 
     @Override
@@ -44,6 +47,7 @@ public class SaleDetailServiceImpl implements SaleDetailService {
                             .orElseThrow(() ->
                                     new IllegalArgumentException("The product variant does not exist")
                             );
+                    productVariantService.updateStock(productVariant.getId(), -(saleDetail.getQuantity()));
                     return saleDetailRepository.save(new SaleDetail(
                             null,
                             productVariant,

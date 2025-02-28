@@ -1,13 +1,9 @@
-import {
-  fetchVariants,
-  fetchVariant,
-  addVariant,
-  deleteVariant,
-  addStock,
-} from "../services/variants";
+import { useVariantsApi } from "../services/useVariantsApi";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useVariants = (productId) => {
+  const { fetchVariants, fetchVariant, addVariant, deleteVariant, addStock } =
+    useVariantsApi();
   const queryClient = useQueryClient();
   const {
     data: variants = [],

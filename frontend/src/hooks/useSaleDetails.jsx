@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchSaleDetails } from "../services/saleDetails";
+import { useSaleDetailsApi } from "../services/useSaleDetailsApi";
 
 export const useSaleDetails = (saleId) => {
+  const { fetchSaleDetails } = useSaleDetailsApi();
   const {
     data: saleDetails = [],
     isLoading,

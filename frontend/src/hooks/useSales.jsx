@@ -1,7 +1,8 @@
 import { useQuery, useMutation, QueryClient } from "@tanstack/react-query";
-import { fetchSales, fetchSale, addSale, deleteSale } from "../services/sales";
+import { useSalesApi } from "../services/useSalesApi";
 
 export const useSales = () => {
+  const { fetchSales, fetchSale, addSale, deleteSale } = useSalesApi();
   const queryClient = new QueryClient();
   const {
     data: sales = [],

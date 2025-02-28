@@ -18,6 +18,6 @@ public interface ProductVariantService {
 
     void deleteProductVariant(UUID id);
 
-    ProductVariant addToStockLevel(UUID id);
+    ProductVariant updateStock(UUID id, int dif);
 
 }

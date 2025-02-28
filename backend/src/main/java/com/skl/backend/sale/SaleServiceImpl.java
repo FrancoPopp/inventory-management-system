@@ -48,7 +48,6 @@ public class SaleServiceImpl implements SaleService {
         );
 
         Sale savedSale = saleRepository.save(newSale);
-        System.out.println("SaleServiceImpl.createSale savedSale: " + savedSale);
         List<SaleDetail> saleDetails = saleDetailService.createSaleDetails(savedSale.getId(), sale.getSaleDetails());
         savedSale.setSaleDetails(saleDetails);
 
@@ -58,10 +57,7 @@ public class SaleServiceImpl implements SaleService {
 
         savedSale.setTotalAmount(totalAmount);
 
-        System.out.println("SaleServiceImpl.createSale savedSale: " + savedSale);
-        Sale testSale = saleRepository.save(savedSale);
-        System.out.println("SaleServiceImpl.createSale testSale: " + testSale);
-        return testSale;
+        return saleRepository.save(savedSale);
     }
 
     @Override

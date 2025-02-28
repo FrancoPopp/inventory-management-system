@@ -19,14 +19,14 @@ public class ProductVariant {
     private int size;
 
     @ManyToOne
-    @JoinColumn(name = "color_id")
+    @JoinColumn(name = "color")
     private Color color;
 
     @Column(nullable = false)
     private int stockLevel;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product")
     private Product product;
 
     public ProductVariant() {}

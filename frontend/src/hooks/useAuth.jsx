@@ -20,14 +20,14 @@ export const useAuth = () => {
     })
       .then((res) => {
         if (!res.ok) {
-          if (res.status === 400)
-            throw new Error("Missing username or password");
-          if (res.status === 403) throw new Error("Invalid credentials");
-          throw new Error("Failed to login");
+          if (res.status === 400) throw new Error("Falta usuario o contraseña");
+          if (res.status === 401)
+            throw new Error("Nombre o contraseña incorrecta");
+          throw new Error("Error al iniciar sesión");
         }
-        return res.text();
+        return res.json();
       })
-      .then((token) => {
+      .then(({ token }) => {
         setToken(token);
         localStorage.setItem("token", token);
       })

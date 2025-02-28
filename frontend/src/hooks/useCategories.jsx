@@ -1,11 +1,8 @@
 import { useQuery, useMutation, QueryClient } from "@tanstack/react-query";
-import {
-  fetchCategories,
-  addCategory,
-  deleteCategory,
-} from "../services/categories";
+import { useCategoriesApi } from "../services/useCategoriesApi";
 
 export const useCategories = () => {
+  const { fetchCategories, addCategory, deleteCategory } = useCategoriesApi();
   const queryClient = new QueryClient();
   const {
     data: categories = [],

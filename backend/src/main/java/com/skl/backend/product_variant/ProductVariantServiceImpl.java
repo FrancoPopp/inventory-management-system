@@ -86,12 +86,12 @@ public class ProductVariantServiceImpl implements ProductVariantService {
     }
 
     @Override
-    public ProductVariant addToStockLevel(UUID id) {
+    public ProductVariant updateStock(UUID id, int dif) {
         ProductVariant productVariant = productVariantRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("The product variant does not exist")
         );
 
-        productVariant.setStockLevel(productVariant.getStockLevel() + 1);
+        productVariant.setStockLevel(productVariant.getStockLevel() + dif);
 
         return productVariantRepository.save(productVariant);
     }

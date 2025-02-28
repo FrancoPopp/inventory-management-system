@@ -84,7 +84,7 @@ public class ProductVariantController {
             @PathVariable("product_variant_id") UUID productVariantId
     ) {
         System.out.println("ProductVariantController.addToStockLevel");
-        return productVariantMapper.toDto(productVariantService.addToStockLevel(productVariantId));
+        return productVariantMapper.toDto(productVariantService.updateStock(productVariantId, 1));
     }
 
 }
