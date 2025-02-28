@@ -6,9 +6,7 @@ spring:
   main:
     allow-circular-references: true
   datasource:
-    url: jdbc:postgresql://aws-0-sa-east-1.pooler.supabase.com:5432/postgres?prepareThreshold=0
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://aws-0-sa-east-1.pooler.supabase.com:5432/postgres?user=postgres.rxfevklemipftnjrctyx&password=${DB_PASSWORD}&prepareThreshold=0
   jpa:
     hibernate:
       ddl-auto: update
